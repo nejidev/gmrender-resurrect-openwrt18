@@ -32,12 +32,31 @@ define Package/gmrender/description
 	Headless UPnP Renderer
 endef
 
+define Package/gmediarender/postinst
+#!/bin/sh
+if [ -z "$${IPKG_INSTROOT}" ]; then
+	echo "Enabling rc.d symlink for gmediarender"
+	/etc/init.d/gmediarender enable
+fi
+exit 0
+endef
+
+define Package/gmediarender/prerm
+#!/bin/sh
+if [ -z "$${IPKG_INSTROOT}" ]; then
+	echo "Removing rc.d symlink for gmediarender"
+	/etc/init.d/gmediarender disable
+fi
+exit 0
+endef
 
 define Package/gmediarender/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/gmediarender $(1)/usr/bin
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/gmediarender.init $(1)/etc/init.d/gmediarender
 	$(INSTALL_DIR) $(1)/usr/share/gmediarender/
-	$(INSTALL_CONF) ./files/* $(1)/usr/share/gmediarender/
+	$(INSTALL_DATA) ./files/*.png $(1)/usr/share/gmediarender/
 endef
 
 $(eval $(call BuildPackage,gmediarender))
