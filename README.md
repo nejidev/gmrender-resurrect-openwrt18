@@ -34,7 +34,7 @@ source by https://github.com/hzeller/gmrender-resurrect
 
 ### Build Package
 	cd openwrt/package
-	git clone https://github.com/nejidev/gmediarender-openwrt18.git
+	git clone https://github.com/nejidev/gmrender-resurrect-openwrt18.git
 	make menuconfig 
 	select module
 	Multimedia  --->
